@@ -10,8 +10,8 @@ int main(int argc, char *argv[]) {
 		ifstream input(file);
 		ofstream output(file + ".enc");
 		if(input) {
-			char c;
-			while(input.get(c)) {
+			unsigned char c;
+			while(input >> c) {
 				output << Coding::encode(c);
 			}
 			cout << "Successfully encoded.";

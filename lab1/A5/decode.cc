@@ -10,8 +10,8 @@ int main(int argc, char *argv[]) {
 		ifstream input(file);
 		ofstream output(file + ".dec");
 		if(input) {
-			unsigned char c;
-			while(input >> c) {
+			char c;
+			while(input.get(c)) {
 				output << Coding::decode(c);
 			}
 			cout << "Successfully decoded.";
