@@ -35,8 +35,7 @@ int List::size() const {
 }
 
 bool List::empty() const {
-	//bool isempty = first == nullptr;
-	return true;
+	return first == nullptr;
 }
 
 void List::insertFirst(int d) {
