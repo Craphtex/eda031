@@ -7,7 +7,7 @@
 class Dictionary {
 public:
 	Dictionary();
-	//bool contains(const std::string& word) const;
+	bool contains(const std::string& word) const;
 	//std::vector<std::string> get_suggestions(const std::string& word) const;
 	void load_file(const std::string& input, const std::string& output);
 	std::vector<std::string> get_trigrams(const std::string& word) const ;
