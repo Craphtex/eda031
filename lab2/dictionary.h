@@ -3,16 +3,18 @@
 
 #include <string>
 #include <vector>
+#include <unordered_set>
+
+using namespace std;
 
 class Dictionary {
 public:
 	Dictionary();
-	bool contains(const std::string& word) const;
-	//std::vector<std::string> get_suggestions(const std::string& word) const;
-	void load_file(const std::string& input, const std::string& output);
-	std::vector<std::string> get_trigrams(const std::string& word) const ;
+	bool contains(const string& word) const;
+	vector<string> get_suggestions(const string& word) const;
+	void load_file(const string& input);
 private:
-	std::vector<std::string> dictionary;
+	unordered_set<string> words;
 };
 
 #endif

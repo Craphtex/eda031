@@ -19,7 +19,7 @@ LDFLAGS =   -g
 #LDFLAGS +=  -stdlib=libc++
 
 # Targets
-PROGS = dictionary
+PROGS = trigrammer spell
 
 all: $(PROGS)
 
@@ -29,7 +29,8 @@ all: $(PROGS)
 #	ar crv $@ $^
 
 # Targets rely on implicit rules for compiling and linking
-dictionary: dictionary.o
+trigrammer: trigrammer.o
+spell: dictionary.o spell.o
 
 # Phony targets
 .PHONY: all clean
