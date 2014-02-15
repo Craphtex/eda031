@@ -83,7 +83,8 @@ void Dictionary::rank_suggestions(vector<Word>& suggestions, const string& word)
 				d[i][j] = value;
 			}
 		}
-		ranked_suggestions[d[word.size()][word_in_list.get_word().size()]].push_back(word_in_list);
+		int distance = d[word.size()][word_in_list.get_word().size()];
+		ranked_suggestions[distance].push_back(word_in_list);
 	}
 
 	// Concaternate ranked lists to a single sorted list
@@ -95,6 +96,15 @@ void Dictionary::rank_suggestions(vector<Word>& suggestions, const string& word)
 		}
 	}
 	suggestions.swap(sorted);
+}
+
+void Dictionary::trim_suggestions(vector<Word>& suggestions) const {
+	vector<Word> trimmed;
+	vector<Word>::size_type max = 5;
+	for(unsigned int i = 0; i < min(max, suggestions.size()); ++i) {
+		trimmed.push_back(suggestions[i]);
+	}
+	suggestions.swap(trimmed);
 }
 
 vector<string> Dictionary::get_trigrams(const string& word) const {
@@ -113,8 +123,7 @@ vector<string> Dictionary::get_suggestions(const string& word) const {
 	vector<Word> suggestions;
 	add_trigram_suggestions(suggestions, word);
 	rank_suggestions(suggestions, word);
-	//trim_suggestions(suggestions);
-
+	trim_suggestions(suggestions);
 
 	vector<string> suggestions_to_return;
 	for(Word word_in_list : suggestions) {

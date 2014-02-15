@@ -20,6 +20,7 @@ private:
 	void load_file(const string& input);
 	void add_trigram_suggestions(vector<Word>& suggestions, const string& word) const;
 	void rank_suggestions(vector<Word>& suggestions, const string& word) const;
+	void trim_suggestions(vector<Word>& suggestions) const;
 };
 
 #endif
