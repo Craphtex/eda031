@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <vector>
 #include <cctype>
+#include "word.h"
 #include "dictionary.h"
 
 using namespace std;

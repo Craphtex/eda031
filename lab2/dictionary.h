@@ -15,9 +15,10 @@ public:
 	vector<string> get_suggestions(const string& word) const;
 	void load_file(const string& input);
 private:
-	unordered_set<Word> words;
-	vector<Word> words[25]; // words[i] = the words with i letters,
-	                        // ignore words longer than 25 letters
+	static const unsigned int max_word_size = 25;
+	vector<Word> words[max_word_size];
+	void add_trigram_suggestions(vector<Word>& suggestions, const string& word);
+	vector<string> get_trigrams(const string& word) const;
 };
 
 #endif
