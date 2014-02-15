@@ -30,7 +30,7 @@ all: $(PROGS)
 
 # Targets rely on implicit rules for compiling and linking
 trigrammer: trigrammer.o
-spell: dictionary.o spell.o
+spell: dictionary.o spell.o word.o
 
 # Phony targets
 .PHONY: all clean
