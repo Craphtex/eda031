@@ -13,12 +13,13 @@ public:
 	Dictionary();
 	bool contains(const string& word) const;
 	vector<string> get_suggestions(const string& word) const;
-	void add_trigram_suggestions(vector<Word>& suggestions, const string& word) const;
-	void load_file(const string& input);
 private:
 	static const unsigned int max_word_size = 25;
 	vector<Word> words[max_word_size];
 	vector<string> get_trigrams(const string& word) const;
+	void load_file(const string& input);
+	void add_trigram_suggestions(vector<Word>& suggestions, const string& word) const;
+	void rank_suggestions(vector<Word>& suggestions, const string& word) const;
 };
 
 #endif

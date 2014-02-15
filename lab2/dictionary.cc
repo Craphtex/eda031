@@ -57,6 +57,46 @@ void Dictionary::add_trigram_suggestions(vector<Word>& suggestions, const string
 	}
 }
 
+void Dictionary::rank_suggestions(vector<Word>& suggestions, const string& word) const {
+	vector<Word> ranked_suggestions[max_word_size + max_word_size + 1];
+
+	// Initializing matrix
+	int d [max_word_size + 1][max_word_size + 1];
+	for(unsigned int i = 0; i < max_word_size + 1; ++i) {
+		d[i][0] = i;
+	}
+	for(unsigned int j = 0; j < max_word_size + 1; ++j) {
+		d[0][j] = j;
+	}
+
+	// Calculate Levenshtein distance for each suggestion
+	for(Word word_in_list : suggestions) {
+		for(unsigned int j = 1; j < word_in_list.get_word().size() + 1; ++j) {
+			for(unsigned int i = 1; i < word.size() + 1; ++i) {
+				int value = min(d[i - 1][j] + 1, d[i][j - 1] + 1);
+				if(word_in_list.get_word().at(j - 1) == word.at(i - 1)) {
+					value = min(value, d[i - 1][j - 1]);
+				}
+				else {
+					value = min(value, d[i - 1][j - 1] + 1);
+				}
+				d[i][j] = value;
+			}
+		}
+		ranked_suggestions[d[word.size()][word_in_list.get_word().size()]].push_back(word_in_list);
+	}
+
+	// Concaternate ranked lists to a single sorted list
+	vector<Word> sorted;
+	sorted.reserve(suggestions.size());
+	for(vector<Word> list : ranked_suggestions) {
+		if(!list.empty()) {
+			sorted.insert(sorted.end(), list.begin(), list.end());
+		}
+	}
+	suggestions.swap(sorted);
+}
+
 vector<string> Dictionary::get_trigrams(const string& word) const {
 	vector<string> trigrams;
 	if(word.length() > 2) {
@@ -72,7 +112,7 @@ vector<string> Dictionary::get_suggestions(const string& word) const {
 	//transform(word.begin(), word.end(), word.begin(), ::tolower);
 	vector<Word> suggestions;
 	add_trigram_suggestions(suggestions, word);
-	//rank_suggestions(suggestions, word);
+	rank_suggestions(suggestions, word);
 	//trim_suggestions(suggestions);
 
 
