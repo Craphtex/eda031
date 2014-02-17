@@ -49,7 +49,7 @@ void Dictionary::add_trigram_suggestions(vector<Word>& suggestions, const string
 		vector<string> trigrams = get_trigrams(word);
 		vector<Word> filtered;
 		for(Word word_in_list : suggestions) {
-			if (word_in_list.get_matches(trigrams) * 2 < trigrams.size()) {
+			if (word_in_list.get_matches(trigrams) * 2 >= trigrams.size()) {
 				filtered.push_back(word_in_list);
 			}
 		}
