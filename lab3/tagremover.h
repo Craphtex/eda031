@@ -10,6 +10,7 @@ public:
 	TagRemover(istream& in);
 	void print(const ostream& out) const;
 private:
+	istream& in;
 };
 
 #endif
