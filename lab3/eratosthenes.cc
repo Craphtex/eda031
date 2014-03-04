@@ -52,21 +52,29 @@ void Eratosthenes::sieveMultiplesOfPrime(unsigned int prime, string* prime_numbe
 }
 
 void Eratosthenes::printPrimes(string* prime_numbers) {
-	string::iterator it = *prime_numbers->begin();
-	for (unsigned int i = 0; it != *prime_numbers->end(); ++it, ++i) {
-		cout << i << ": " << *it << endl;
+	string::iterator it = prime_numbers->begin();
+	for (unsigned int i = 0; it != prime_numbers->end(); ++it, ++i) {
+		if (*it == 'P') {
+			cout << i << endl;
+		}
 	}
-	cout << *prime_numbers << endl;
 }
 
 void Eratosthenes::printLargestPrime(string* prime_numbers) {
-	cout << *prime_numbers << endl;
+	string::iterator it = prime_numbers->begin();
+	int largest = 0;
+	for (unsigned int i = 0; it != prime_numbers->end(); ++it, ++i) {
+		if (*it == 'P') {
+			largest = i;
+		}
+	}
+	cout << largest << endl;
 }
 
 int main() {
 	Eratosthenes er(false);
-	Eratosthenes::printPrimes(er.calculatePrimes(200));
+	cout << "200 first primes" << endl;
+	Eratosthenes::printPrimes(er.calculatePrimes(1224));
+	cout << "Largest prime less than 100 000" << endl;
+	Eratosthenes::printLargestPrime(er.calculatePrimes(100000));
 }
-
-
-
