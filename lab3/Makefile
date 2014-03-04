@@ -19,7 +19,7 @@ LDFLAGS =   -g
 #LDFLAGS +=  -stdlib=libc++
 
 # Targets
-PROGS = tagremover
+PROGS = eratosthenes tagremover
 
 all: $(PROGS)
 
@@ -29,6 +29,7 @@ all: $(PROGS)
 #	ar crv $@ $^
 
 # Targets rely on implicit rules for compiling and linking
+eratosthenes: eratosthenes.o
 tagremover: tagremover.o
 
 # Phony targets
