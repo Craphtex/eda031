@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip> // for setw and setfill
 #include <stdexcept>
+#include <string>
 #include <sstream>
 #include "date.h"
 
@@ -30,6 +31,16 @@ T string_cast(const string str) {
 	}
 }
 
+template<typename T>
+string toString(const T& s)
+{
+	stringstream ss;
+	ss << s;
+	string str;
+	ss >> str;
+	return str;
+}
+
 int main() {
 	cout << "--- Testing string_cast:" << endl;
 	try {
@@ -42,6 +53,14 @@ int main() {
 	} catch (std::invalid_argument& e) {
 		cout << "Error: " << e.what() << endl;
 	}
+
+	cout << "--- Testing toString:" << endl;
+	double d = 1.234;
+	Date today;
+	string sd = toString(d);
+	string st = toString(today);
+	cout << sd << endl;
+	cout << st << endl;
 	
 	// Check 'next' by creating an object describing today's date, then
 	// printing dates more than a month ahead
