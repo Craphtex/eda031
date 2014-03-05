@@ -1,5 +1,7 @@
 #include <iostream>
 #include <iomanip> // for setw and setfill
+#include <string>
+#include <sstream>
 #include "date.h"
 
 using namespace std;
@@ -15,7 +17,25 @@ void print(const Date& d) {
 	cout << setw(2) << setfill('0') << d.getDay();
 }
 
+template<typename T>
+string toString(const T& s)
+{
+	stringstream ss;
+	ss << s;
+	string str;
+	ss >> str;
+	return str;
+}
+
 int main() {
+	cout << "--- Testing toString:" << endl;
+	double d = 1.234;
+	Date today;
+	string sd = toString(d);
+	string st = toString(today);
+	cout << sd << endl;
+	cout << st << endl;
+	
 	// Check input and output of dates. Uncomment the following when you 
 	// have added operator>> and operator<<.
 	bool cont = true;
