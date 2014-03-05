@@ -1,5 +1,7 @@
 #include <iostream>
 #include <iomanip> // for setw and setfill
+#include <stdexcept>
+#include <sstream>
 #include "date.h"
 
 using namespace std;
@@ -15,25 +17,30 @@ void print(const Date& d) {
 	cout << setw(2) << setfill('0') << d.getDay();
 }
 
+template <typename T>
+T string_cast(const string str) {
+	stringstream ss;
+	ss << str;
+	T data;
+	if(ss >> data) {
+		return data;
+	}
+	else {
+		throw std::invalid_argument("operator>> not implemented for given typename");
+	}
+}
+
 int main() {
-	// Check input and output of dates. Uncomment the following when you 
-	// have added operator>> and operator<<.
-	bool cont = true;
-	while (cont) {
-		cout << "Type a date: ";
-		Date aDate;
-		cin >> aDate;
-		if (cin.eof()) {
-			cont = false;
-		} else if (!cin.good()) {
-			cout << "Wrong input format" << endl;
-			// restore stream state and ignore the rest of the line
-			cin.clear();
-			cin.ignore(10000, '\n');
-		}
-		else {
-			cout << "Output: " << aDate << endl;
-		}
+	cout << "--- Testing string_cast:" << endl;
+	try {
+		int i = string_cast<int>("123");
+		cout << i << endl;
+		double d = string_cast<double>("12.34");
+		cout << d << endl;
+		Date date = string_cast<Date>("2013-01-10");
+		cout << date << endl;
+	} catch (std::invalid_argument& e) {
+		cout << "Error: " << e.what() << endl;
 	}
 	
 	// Check 'next' by creating an object describing today's date, then
@@ -56,4 +63,24 @@ int main() {
 	d2.next();
 	print(d2);
 	cout << endl;
+
+	// Check input and output of dates. Uncomment the following when you 
+	// have added operator>> and operator<<.
+	bool cont = true;
+	while (cont) {
+		cout << "Type a date: ";
+		Date aDate;
+		cin >> aDate;
+		if (cin.eof()) {
+			cont = false;
+		} else if (!cin.good()) {
+			cout << "Wrong input format" << endl;
+			// restore stream state and ignore the rest of the line
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
+		else {
+			cout << "Output: " << aDate << endl;
+		}
+	}
 }
