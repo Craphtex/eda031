@@ -19,7 +19,7 @@ LDFLAGS =   -g
 #LDFLAGS +=  -stdlib=libc++
 
 # Targets
-PROGS = eratosthenes tagremover
+PROGS = date_test eratosthenes tagremover
 
 all: $(PROGS)
 
@@ -29,6 +29,7 @@ all: $(PROGS)
 #	ar crv $@ $^
 
 # Targets rely on implicit rules for compiling and linking
+date_test: date_test.o date.o
 eratosthenes: eratosthenes.o
 tagremover: tagremover.o
 
