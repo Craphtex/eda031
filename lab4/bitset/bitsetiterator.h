@@ -10,14 +10,19 @@
 #include <iterator>
 
 class BitsetIterator : public std::iterator<std::forward_iterator_tag, bool> {
+	friend class Bitset;
 public:
 	BitsetIterator(Bitset::BitStorage& pb, size_t p) : ref(pb, p) {}
 	
 	bool operator!=(const BitsetIterator& bsi) const {
-		return true;
+		if (!(ref.pos == Bitset::BPW && ref.pos == bsi.ref.pos)) {
+			return true;
+		}
+		return ref != bsi.ref;
 	}
 	
 	BitsetIterator& operator++() {
+		++ref.pos;
 		return *this;
 	}
 	
