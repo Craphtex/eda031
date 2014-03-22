@@ -103,6 +103,7 @@ std::shared_ptr<Connection> Server::waitForActivity() const {
 		}
 		pending_socket = new_socket;
 		return_conn = nullptr;
+
 	}
 	else {
 		auto it = find_if(connections.begin(), connections.end(),
@@ -113,7 +114,9 @@ std::shared_ptr<Connection> Server::waitForActivity() const {
 			error("waitForActivity: could not find registered connection");
 		}
 		return_conn = *it;
+		
 	}
+
 	return return_conn;
 }
 

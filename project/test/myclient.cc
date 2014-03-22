@@ -1,34 +1,35 @@
 /* myclient.cc: sample client program */
 #include "connection.h"
 #include "connectionclosedexception.h"
+#include "connection_manager.h"
+#include "protocol.h"
 
 #include <iostream>
 #include <string>
 #include <stdexcept>
 #include <cstdlib>
+#include <memory>
 
 using namespace std;
-
-/*
- * Send an integer to the server as four bytes.
- */
-void writeNumber(const Connection& conn, int value) {
-	conn.write((value >> 24) & 0xFF);
-	conn.write((value >> 16) & 0xFF);
-	conn.write((value >> 8)	 & 0xFF);
-	conn.write(value & 0xFF);
+void print_menu(){
+	cout << "1. List newsgroups" << endl;
+	cout << "2. List articles" << endl;
+	cout << "3. Fetch article" << endl;
+	cout << "4. Create newsgroups" << endl;
+	cout << "5. Remove newsgroups" << endl;
+	cout << "6. Create article" << endl;
+	cout << "7. Remove article" << endl;
 }
-
-/*
- * Read a string from the server.
- */
-string readString(const Connection& conn) {
-	string s;
-	char ch;
-	while ((ch = conn.read()) != '$') {
-		s += ch;
-	}
-	return s;
+int fetch_number(){
+		cout << ">>";
+		int i;
+		cin >> i;
+		if(cin.fail()){
+			cin.clear();
+			cin.ignore(10000, '\n'); //Ignore up to 10 000 chars if input is illegal.
+			return 0;
+		}
+		return i;
 }
 
 int main(int argc, char* argv[]) {
@@ -50,20 +51,12 @@ int main(int argc, char* argv[]) {
 		cerr << "Connection attempt failed" << endl;
 		exit(1);
 	}
-	
-	cout << "Type a number: ";
+	print_menu();
 	int nbr;
-	while (cin >> nbr) {
-		try {
-			cout << nbr << " is ...";
-			writeNumber(conn, nbr);
-			string reply = readString(conn);
-			cout << " " << reply << endl;
-			cout << "Type another number: ";
-		} catch (ConnectionClosedException&) {
-			cout << " no reply from server. Exiting." << endl;
-			exit(1);
-		}
+	shared_ptr<Connection> ptr(&conn);
+	connection_manager cm(ptr);
+	while (true) {
+		cout << fetch_number() << endl;
 	}
 }
 
