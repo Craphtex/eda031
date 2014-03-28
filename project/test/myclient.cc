@@ -128,7 +128,7 @@ void delete_newsgroups(connection_manager& cm){
 	else if (code == Protocol::ANS_NAK) {
 		code = cm.recv_code();
 		if (code == Protocol::ERR_NG_DOES_NOT_EXIST) {
-			cout << "No newsgroup with id \"" << name << "\" exists.";
+			cout << "No newsgroup with id \"" << id << "\" exists.";
 		}
 		else {
 			throw ProtocolViolationException("In Delete Newsgroups: ", Protocol::ERR_NG_DOES_NOT_EXIST, code);
@@ -173,7 +173,7 @@ void list_articles(connection_manager& cm){
 	else if (code == Protocol::ANS_NAK) {
 		code = cm.recv_code();
 		if (code == Protocol::ERR_NG_DOES_NOT_EXIST) {
-			cout << "No newsgroup with id \"" << name << "\" exists.";
+			cout << "No newsgroup with id \"" << id << "\" exists.";
 		}
 		else {
 			throw ProtocolViolationException("In List Articles: ", Protocol::ERR_NG_DOES_NOT_EXIST, code);
@@ -253,13 +253,13 @@ void delete_article(connection_manager& cm){
 	cout << "Delete article in newsgroup" << endl;
 	cout << "Enter newsgroup id: ";
 	int ng_id = fetch_number();
-	if (id < 1) {
+	if (ng_id < 1) {
 		cout << "No valid number was entered. Removal aborted." << endl;
 		return;
 	}
 	cout << "Enter article id: ";
 	int art_id = fetch_number();
-	if (id < 1) {
+	if (art_id < 1) {
 		cout << "No valid number was entered. Removal aborted." << endl;
 		return;
 	}
@@ -279,10 +279,10 @@ void delete_article(connection_manager& cm){
 	else if (code == Protocol::ANS_NAK) {
 		code = cm.recv_code();
 		if (code == Protocol::ERR_NG_DOES_NOT_EXIST) {
-			cout << "No newsgroup with id \"" << name << "\" exists.";
+			cout << "No newsgroup with id \"" << ng_id << "\" exists.";
 		}
 		else if (code == Protocol::ERR_ART_DOES_NOT_EXIST) {
-			cout << "No article with id \"" << name << "\" exists in newsgroup with id \"" << ng_id << "\".";
+			cout << "No article with id \"" << art_id << "\" exists in newsgroup with id \"" << ng_id << "\".";
 		}
 		else {
 			throw ProtocolViolationException("In Delete Article: ", Protocol::ERR_NG_DOES_NOT_EXIST, code);
@@ -302,13 +302,13 @@ void get_article(connection_manager& cm){
 	cout << "Fetch article in newsgroup" << endl;
 	cout << "Enter newsgroup id: ";
 	int ng_id = fetch_number();
-	if (id < 1) {
+	if (ng_id < 1) {
 		cout << "No valid number was entered. Fetching aborted." << endl;
 		return;
 	}
 	cout << "Enter article id: ";
 	int art_id = fetch_number();
-	if (id < 1) {
+	if (art_id < 1) {
 		cout << "No valid number was entered. Fetching aborted." << endl;
 		return;
 	}
@@ -333,10 +333,10 @@ void get_article(connection_manager& cm){
 	else if (code == Protocol::ANS_NAK) {
 		code = cm.recv_code();
 		if (code == Protocol::ERR_NG_DOES_NOT_EXIST) {
-			cout << "No newsgroup with id \"" << name << "\" exists.";
+			cout << "No newsgroup with id \"" << ng_id << "\" exists.";
 		}
 		else if (code == Protocol::ERR_ART_DOES_NOT_EXIST) {
-			cout << "No article with id \"" << name << "\" exists in newsgroup with id \"" << ng_id << "\".";
+			cout << "No article with id \"" << art_id << "\" exists in newsgroup with id \"" << ng_id << "\".";
 		}
 		else {
 			throw ProtocolViolationException("In Get Article: ", Protocol::ERR_NG_DOES_NOT_EXIST, code);
