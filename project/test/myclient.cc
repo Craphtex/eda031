@@ -54,10 +54,10 @@ void list_newsgroups(connection_manager& cm){
 	if (code != Protocol::ANS_LIST_NG) {
 		throw ProtocolViolationException("In List Newsgroups: ", Protocol::ANS_LIST_NG, code);
 	}
-	int nbr = recv_int_parameter();
+	int nbr = cm.recv_int_parameter();
 	while (--nbr > -1) {
-		int id = recv_int_parameter();
-		string name = recv_string_parameter();
+		int id = cm.recv_int_parameter();
+		string name = cm.recv_string_parameter();
 		cout << id << ". " << name << endl;
 	}
 	code = cm.recv_code();
@@ -87,7 +87,7 @@ void create_newsgroups(connection_manager& cm){
 		cout << "Newsgroup \"" << name << "\" successfully added.";
 	}
 	else if (code == Protocol::ANS_NAK) {
-		code = code = cm.recv_code();
+		code = cm.recv_code();
 		if (code == Protocol::ERR_NG_ALREADY_EXISTS) {
 			cout << "Newsgroup with name \"" << name << "\" already exists.";
 		}
@@ -126,7 +126,7 @@ void delete_newsgroups(connection_manager& cm){
 		cout << "Newsgroup with id \"" << id << "\" successfully removed.";
 	}
 	else if (code == Protocol::ANS_NAK) {
-		code = code = cm.recv_code();
+		code = cm.recv_code();
 		if (code == Protocol::ERR_NG_DOES_NOT_EXIST) {
 			cout << "No newsgroup with id \"" << name << "\" exists.";
 		}
@@ -163,15 +163,15 @@ void list_articles(connection_manager& cm){
 	code = cm.recv_code();
 	if (code == Protocol::ANS_ACK) {
 		cout << "Newsgroup with id \"" << id << "\" successfully removed.";
-		int nbr = recv_int_parameter();
+		int nbr = cm.recv_int_parameter();
 		while (--nbr > -1) {
-			int id = recv_int_parameter();
-			string name = recv_string_parameter();
+			int id = cm.recv_int_parameter();
+			string name = cm.recv_string_parameter();
 			cout << id << ". " << name << endl;
 		}
 	}
 	else if (code == Protocol::ANS_NAK) {
-		code = code = cm.recv_code();
+		code = cm.recv_code();
 		if (code == Protocol::ERR_NG_DOES_NOT_EXIST) {
 			cout << "No newsgroup with id \"" << name << "\" exists.";
 		}
@@ -187,8 +187,6 @@ void list_articles(connection_manager& cm){
 	if (code != Protocol::ANS_END) {
 		throw ProtocolViolationException("In List Articles: ", Protocol::ANS_END, code);
 	}
-	COM_LIST_ART num_p COM_END
-	ANS_LIST_ART [ANS_ACK num_p [num_p string_p]* | ANS_NAK ERR_NG_DOES_NOT_EXIST] ANS_END
 }
 
 void create_article(connection_manager& cm){
@@ -233,7 +231,7 @@ void create_article(connection_manager& cm){
 		cout << "Article successfully uploaded.";
 	}
 	else if (code == Protocol::ANS_NAK) {
-		code = code = cm.recv_code();
+		code = cm.recv_code();
 		if (code == Protocol::ERR_NG_DOES_NOT_EXIST) {
 			cout << "No newsgroup with id \"" << name << "\" exists.";
 		}
@@ -279,7 +277,7 @@ void delete_article(connection_manager& cm){
 		cout << "Article with id \"" << art_id << "\" in newsgroup with id \"" << ng_id << "\" successfully deleted.";
 	}
 	else if (code == Protocol::ANS_NAK) {
-		code = code = cm.recv_code();
+		code = cm.recv_code();
 		if (code == Protocol::ERR_NG_DOES_NOT_EXIST) {
 			cout << "No newsgroup with id \"" << name << "\" exists.";
 		}
@@ -333,7 +331,7 @@ void get_article(connection_manager& cm){
 		cout << text << endl;
 	}
 	else if (code == Protocol::ANS_NAK) {
-		code = code = cm.recv_code();
+		code = cm.recv_code();
 		if (code == Protocol::ERR_NG_DOES_NOT_EXIST) {
 			cout << "No newsgroup with id \"" << name << "\" exists.";
 		}
